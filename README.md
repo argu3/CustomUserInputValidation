@@ -5,7 +5,7 @@ This is just copied from the module help file:
 
 
 NAME
-    Get-AGGeneralizedUserInput
+    CustomUserInputValidation
 
 SYNOPSIS
     This module allows for the creation of configurable input types using the csvs in the "InputConfig" folder. It is designed to be used in conjunction with any module that accepts user input.
