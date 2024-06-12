@@ -287,7 +287,7 @@ current validationSteps:
 Import-Module Get-AGSharedHelperFunctions -force
 
 #need to put ' in the CSV for an empty value to be read
-$configPath = (Get-Module -ListAvailable Get-AGGeneralizedUserInput).path
+$configPath = (Get-Module -ListAvailable CustomUserInputValidation).path
 $configPath = $configPath.Substring(0,$configPath.LastIndexOf("\")) + "\InputConfig"
 $lengths = import-csv ($configPath + "\lengthRequirements.csv")
 $lengths = Get-AGcsvToHashtable -csv $lengths -key "Name"
