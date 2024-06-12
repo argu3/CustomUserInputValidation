@@ -200,7 +200,7 @@ function Get-AGinput{
         do{
 		    $writeString = $inputInfo[$inputType].inputString.replace("``n", "`n").replace("``r", "`r").replace("``t", "`t")
             if($beep){[console]::beep(5000,500)}
-		    Read-AGhost -prompt $writeString -NewLine $newLine -foregroundcolor $foregroundcolor -backgroundcolor $backgroundcolor -noColon $noColon
+	    $uinput = Read-AGhost -prompt $writeString -NewLine $newLine -foregroundcolor $foregroundcolor -backgroundcolor $backgroundcolor -noColon $noColon
             $validated = get-AGvalidateInput -inputType $inputType -underValue $underValue -uinput $uInput
             if(!$validated)
             {
