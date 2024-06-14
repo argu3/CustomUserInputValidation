@@ -191,6 +191,15 @@ function Get-AGvalidateInput
 
 function Get-AGinput{
     param([string]$inputType, [int]$underValue, [system.consolecolor]$backgroundcolor, [system.consolecolor]$foregroundcolor, [bool]$newLine, [bool]$noColon, [bool]$beep = $true)
+    #check colors
+    if($backgroundcolor -eq $null)
+    {
+        $backgroundColor = $colorDefaults.backgroundColor
+    }
+    if($foregroundColor -eq $null)
+    {
+        $foregroundColor = $colorDefaults.foregroundColor
+    }
     if($inputInfo[$inputType] -eq $null)
     {
         Read-AGhost "Not a valid type" -backgroundcolor Red
@@ -263,6 +272,17 @@ function Get-AGConfigValidation{
     }
 }
 
+function Get-AGColorValidation
+{
+    param($color, $type)
+    if($null -eq [System.ConsoleColor]::$color)
+    {
+        write-host "warning: The configured $type color $color is not a valid color" -BackgroundColor Yellow -ForegroundColor Black
+        return $null
+    }
+    return $color
+}
+
 function Get-AGValidationStepOptions
 {
 write-host "
@@ -299,4 +319,7 @@ $functions = import-csv ($configPath + "\functions.csv")
 $functions = Get-AGcsvToHashtable -csv $functions -key "Name"
 $regex = import-csv ($configPath + "\regex.csv")
 $regex = Get-AGcsvToHashtable -csv $regex -key "Name"
-
+$colorDefaults = import-csv ($configPath + "\colorDefaults.csv")
+$colorDefaults.backgroundColor = Get-AGColorValidation -color $colorDefaults.backgroundColor -type "Background"
+$colorDefaults.foregroundColor = Get-AGColorValidation -color $colorDefaults.foregroundColor -type "Foreground"
+Get-AGConfigValidation
