@@ -1,4 +1,4 @@
-﻿function Get-AGchooseFromTable
+function Get-AGchooseFromTable
 {
     param(
         $output, 
@@ -69,7 +69,7 @@
 
 function Get-AGvalidateInput
 {
-    param([string]$inputType, [int]$underValue, $uInput)
+    param($inputType, [int]$underValue, $uInput)
     if($inputInfo[$inputType].validationSteps.contains("equalsCodeWord"))
     {
         if($uInput -eq "")
@@ -133,6 +133,27 @@ function Get-AGvalidateInput
                     return $false
                 }
             }
+            if($inputInfo[$inputType].validationSteps.contains("double"))
+            {
+                $test = $null
+                $global:Error.clear()
+                try
+                {
+                    $test = [double]$uInput
+                }
+                catch
+                {
+                    $e = $global:Error 
+                }
+                if($test -eq $null)
+                {
+                    return $false
+                }
+                if($test.GetType().Name -ne "Double")
+                {
+                    return $false
+                }
+            }
         }
     }
     elseif($inputInfo[$inputType].validationSteps.contains("noNumbers"))
@@ -190,7 +211,7 @@ function Get-AGvalidateInput
 }
 
 function Get-AGinput{
-    param([string]$inputType, [int]$underValue, [system.consolecolor]$backgroundcolor, [system.consolecolor]$foregroundcolor, [bool]$newLine, [bool]$noColon, [bool]$beep = $true)
+    param($inputType, [int]$underValue, [system.consolecolor]$backgroundcolor, [system.consolecolor]$foregroundcolor, [bool]$newLine, [bool]$noColon, [bool]$beep = $true)
     #check colors
     if($backgroundcolor -eq $null)
     {
@@ -209,7 +230,7 @@ function Get-AGinput{
         do{
 		    $writeString = $inputInfo[$inputType].inputString.replace("``n", "`n").replace("``r", "`r").replace("``t", "`t")
             if($beep){[console]::beep(5000,500)}
-	    $uinput = Read-AGhost -prompt $writeString -NewLine $newLine -foregroundcolor $foregroundcolor -backgroundcolor $backgroundcolor -noColon $noColon
+		    $uinput = Read-AGhost -prompt $writeString -NewLine $newLine -foregroundcolor $foregroundcolor -backgroundcolor $backgroundcolor -noColon $noColon
             $validated = get-AGvalidateInput -inputType $inputType -underValue $underValue -uinput $uInput
             if(!$validated)
             {
@@ -227,7 +248,7 @@ function Get-AGConfigValidation{
         
         if($inputInfo[$item].validationSteps.length -eq 0)
         {
-            write-host $item "has no validation steps!S" -BackgroundColor Red
+            write-host $item "has no validation steps!" -BackgroundColor Red
         }
         else
         {
@@ -263,11 +284,11 @@ function Get-AGConfigValidation{
         }
         if($inputInfo[$item].inputString.length -eq 0)
         {
-            write-host $item "is missing an input string" -BackgroundColor Yellow
+            write-host $item "is missing an input string" -BackgroundColor Yellow -ForegroundColor Black
         }
         if($inputInfo[$item].tryAgainString.length -eq 0)
         {
-            write-host $item "is missing an input string" -BackgroundColor Yellow
+            write-host $item "is missing an input string" -BackgroundColor Yellow -ForegroundColor Black
         }
     }
 }
@@ -295,6 +316,7 @@ current validationSteps:
         isInTable
         positiveNumber
         notZero
+        double
     isLength
     startsWithS
     notZero
@@ -304,7 +326,7 @@ current validationSteps:
     regex
 "
 }
-Import-Module Get-AGSharedHelperFunctions -force
+Import-Module Get-AGSharedHelperFunctions -function Read-AGhost
 
 #need to put ' in the CSV for an empty value to be read
 $configPath = (Get-Module -ListAvailable CustomUserInputValidation).path
