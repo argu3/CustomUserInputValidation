@@ -27,18 +27,38 @@ OVERVIEW
         "Get-AGConfigValidation" validates the configuration csvs.
         "Get-AGValidationStepOptions" shows the optional validation steps for a new input type
     Config files:
-        "inputInfo" is used to define a new type of input
+        inputInfo.csv 
+	fields:
+        is used to define a new type of input
             Name: the name used with -inputType
             inputString: What the user is prompted with for this input type
             tryAgainString: What the user is prompted with if input validation fails
             validationSteps: A pipe-delimited list of validation steps from the list found with "Get-AGValidationStepOptions"
-        "codeWords" is used in conjunction with "inputInfo" to add input options that ignore other validation steps
-            Name: the name used with -inputType, needs to be present in inputInfo
+        codeWords.csv 
+	fields:
+        is used in conjunction with "inputInfo" to add input options that ignore other validation steps
+            Name: the name used with -inputType, needs to match a name in inputInfo
             codeWord: A pipe-delimited list of accepted inputs
-        "lengths" is used to set the length of inputs which use the "isLength" validation step 
-        "functions" is used to set the functions that will determine the input's validity
-        "regex" is used to set the regex patterns for the input to be matched against
-
+        lengthRequirements.csv 
+	fields:
+        is used to set the length of inputs which use the "isLength" validation step 
+            Name: the name used with -inputType, needs to match a name in inputInfo
+            lengthRequirements: integer which defines the length of this input
+        functions.csv
+	fields:
+        is used to set the functions that will determine the input's validity
+            Name: the name used with -inputType, needs to match a name in inputInfo
+            functions: a pipe-delimeted list of paths to functions which should return a boolean
+        regex.csv 
+        is used to set the regex patterns for the input to be matched against
+	fields:
+            Name: the name used with -inputType, needs to match a name in inputInfo
+            regex: a pipe-delimeted list regex patterns to be validated
+	colorDefaults.csv
+	is used to determine the default background and foreground color for all prompts
+	fields:
+	    backgroundColor: a color from [system.consolecolor]
+	    foregroundColor: a color from [system.consolecolor]
 EXAMPLES
     need to add examples 
 
