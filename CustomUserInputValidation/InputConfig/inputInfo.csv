@@ -11,9 +11,10 @@ PhoneModelInput,Enter the corresponding # to the device type,not a valid number,
 PhoneSerial,Scan serial number,"""That's not a Serial, please re-scan""",startsWithS|isLength|notBlank
 MobileNumber,scan or type phone number,"""That's not a valid phone #,  please re-scan""",isLength|isTypeNumber|notBlank
 phoneNumber,scan or type phone number,"""That's not a valid phone #,  please re-scan""",isLength|isTypeNumber|notBlank
-TicketNumber,Please enter the ticket # 3256590,Not a valid ticket #. Please enter the ticket #,isLength|isTypeNumber|notBlank
+TicketNumber,Please enter the ticket# (make a ticket if needed),Not a valid ticket #. Please enter the ticket #,isLength|isTypeNumber|notBlank
 Boxes,box (b to restart),Invalid. Please try again.,isTypeNumber|underValue|notZero|positiveNumber|equalsCodeWord|notBlank
 ManufacturerPartNumber,Please enter the model (if you can't find it leave blank),blank,blank
 SerialNumber,Please enter the serial,serial cant be blank,notBlank
 CustomerPurchaseOrder,Please enter the PO,po cant be blank,notBlank
 testFunc,ok,notOk,function
+ExtraDelay,Please enter the extra delay for the program. This number acts as a percentage of the hardcoded delay,That's not a number,isTypeNumber
